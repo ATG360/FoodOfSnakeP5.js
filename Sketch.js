@@ -1,90 +1,46 @@
-var x;
-var y;
-var Score  = 0;
-var IncreaseInPace = 0;
-var GameIsOn = true;
-var Snake = {
-  x:25,
-  y:25,
-  SinX:0,
-  SinY:0
-};
-
-var Food = {
-  x:200,
-  y:200
-};
-
-function setup() {
-  createCanvas(400, 400); 
-  frameRate(10);
+let snake;
+let food;
+let defaultFrameRate = 10;
+function setup()
+{
+  createCanvas(600,600);
+  frameRate(defaultFrameRate);
+  snake = new Snake();
+  food = new Food();
 }
-
-function draw() {
-  background(5);
-  x = Food.x;
-  y = Food.y;
-  fill(255,0,0);
-  noStroke();
-  rect(Food.x,Food.y,15,15);
-  fill(255,0,0,150);
-  rect(0,0,600,15);
-  rect(0,385,600,15);
-  rect(0,0,15,600);
-  rect(385,0,15,600);
-  fill(255);
-  rect(Snake.x,Snake.y,15,15);
-  SnakeSetUp();
-  GetOrNot();
-}
-function SnakeSetUp(){
-    
-  Snake.x += Snake.SinX;
-  Snake.y += Snake.SinY;
-  if(Snake.x >= 363 || Snake.y >=363){
-    console.log("YOU LOSE !!!");
-    Snake.SinX = 0;
-    Snake.SinY = 0;
+function draw()
+{
+  background(220);
+  textSize(40)
+  text(snake.Score,550,590);
+  food.show();
+  snake.update();
+  snake.show();
+  if(snake.dead())
+  {
+  	background(255,0,0);
+    textSize(70);
+    text("YOU LOSE",10,floor(height/4));
+    text("YOUR SCORE : " + snake.Score,10,height/2);
+    textSize(40);
+    text("Refresh to Start again !",100,400);
+    noLoop();
   }
-  if(Snake.x <= 17 || Snake.y <= 17){
-    console.log("YOU LOSE !!!");
-    GameIsOn = false;
-    Snake.SinX = 0;
-    Snake.SinY = 0;
-  }
-  
-}
-function GetOrNot(){
-  if(Snake.x == x && Snake.y == y){
-    Score += 1;
-    print("Score : " + Score);
-    IncreaseInPace += 1;
-    FoodLocation();
+  let d = dist(snake.body[snake.body.length-1].x,snake.body[snake.body.length-1].y,food.x,food.y);
+  if(d < 5){
+    defaultFrameRate +=  defaultFrameRate;
+    frameRate(defaultFrameRate);
+    snake.eat(food);    
   }
 }
-function FoodLocation(){
-  Food.x = Food.x + 25;
-  Food.y = Food.y + 50;
-  x = Food.x;
-  y = Food.y;
-}
-function keyPressed() {
-  if(GameIsOn == true){
-   if(keyCode == UP_ARROW){
-     Snake.SinY = -5 + -(IncreaseInPace);
-     Snake.SinX = 0;
-   }
-   else if(keyCode == DOWN_ARROW){
-     Snake.SinY = 5 + IncreaseInPace;
-     Snake.SinX = 0;
-   }
-   else if(keyCode == RIGHT_ARROW){
-     Snake.SinX = 5 + IncreaseInPace;
-     Snake.SinY = 0;
-   }
-   else if(keyCode == LEFT_ARROW){
-     Snake.SinX = -5 + -(IncreaseInPace);
-     Snake.SinY = 0;
-   }
-  }
+function keyPressed()
+{
+  if(keyCode == UP_ARROW)
+    snake.move(0,-3);
+  else if(keyCode == DOWN_ARROW)
+    snake.move(0,3);
+  else if(keyCode == RIGHT_ARROW)
+    snake.move(3,0);
+  else if(keyCode == LEFT_ARROW)
+    snake.move(-3,0);
 }
