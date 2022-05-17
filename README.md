@@ -1,2 +1,5 @@
 # FoodOfSnakeP5.js
-This is a project named Food Of Snake Game, I made in P5.js 
+
+## made using P5 module in javascript
+
+#### Control the snake using Hand Gestures / Voice
