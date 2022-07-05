@@ -1,4 +1,4 @@
-# FoodOfSnakeP5.js
+# Feed The Snake by Guiding him through your Voice !
 
 [Asset Store](https://assetstore.unity.com/packages/2d/gui/icons/magical-potions-and-effects-pack-196598) | [GitHub](https://github.com/abhitechgames) | [Support Email](mailto:atgstudiosinfo@gmail.com)
 
